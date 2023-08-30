@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Course } from './schemas/course.schema';
 import * as mongoose from 'mongoose';
@@ -21,6 +25,11 @@ export class CourseService {
   }
 
   async findCourse(id: string): Promise<Course> {
+    const isMongooseId = mongoose.isValidObjectId(id);
+    if (!isMongooseId) {
+      throw new BadRequestException('Course is invalid!');
+    }
+
     const course = await this.courseModel.findById(id);
 
     if (!course) {
@@ -31,6 +40,11 @@ export class CourseService {
   }
 
   async updateById(id: string, course: Course): Promise<Course> {
+    const isMongooseId = mongoose.isValidObjectId(id);
+    if (!isMongooseId) {
+      throw new BadRequestException('Course is invalid!');
+    }
+
     const data = await this.courseModel.findById(id);
     if (!data) {
       throw new NotFoundException('Course not found!');

@@ -1,7 +1,7 @@
+import mongoose from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { Book } from './schema/book.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
 
 @Injectable()
 export class BookService {
